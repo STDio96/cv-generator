@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { Formik, Form, Field, ErrorMessage, useField } from 'formik';
 // import CustomError from './CustomError'
+import { useDispatch, useSelector } from 'react-redux'
+import { saveForm } from '../../ducks/firstStep'
 import MyInputField from '../MyInputField/MyInputField';
 
-const FirstStep = () => {
+const FirstStep = ({ title }) => {
   let required = false; // TODO: remove
+
+  const dispatch = useDispatch();
 
   /* const MyInputField = ({ label, ...props }) => {
     const [field, meta, helpers] = useField(props);
@@ -22,11 +26,16 @@ const FirstStep = () => {
   }; */
 
   const initialValues = {
-    first_name: '',
+    first_name: 'Sergo',
+    last_name: 'Rim',
+    job: 'mid2sen js developers',
+    phone: '123456789',
+    email: 'sergo@gmail.com'
+    /* first_name: '',
     last_name: '',
     job: '',
     phone: '',
-    email: ''
+    email: '' */
   }
 
   const validate = (values) => {
@@ -48,44 +57,37 @@ const FirstStep = () => {
 
   const submitHandler = (values, { setSubmitting }) => {
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
       setSubmitting(false);
-    }, 4200);
+      dispatch(saveForm(0, values))
+      dispatch(saveForm(1, values))
+    }, 100);
   }
 
-  return <div className="col-12 d-flex justify-content-center">
-    <Formik
-      initialValues={initialValues}
-      validate={validate}
-      onSubmit={submitHandler}
-    >
-      {({ isSubmitting, errors, touched }) => (
-        <Form className={`w-50 needs-validation ${isSubmitting ? 'was-validated' : ''}`}>
-          {/* <div className="alert alert-danger">{JSON.stringify(touched)} :: {Object.keys(errors).length}</div> */}
-          {/* Name:
-          <Field type="text" name="first_name" className={`form-control ${errors.first_name && 'is-invalid'}`} required={required} />
-          <ErrorMessage name="first_name" component={CustomError} />
-          LastName:
-          <Field type="text" name="last_name" className={`form-control ${errors.last_name && 'is-invalid'}`} required={required} />
-          <ErrorMessage name="last_name" component="div" />
-          Job:
-          <Field type="text" name="job" className={`form-control ${errors.job && 'is-invalid'}`} required={required} />
-          <ErrorMessage name="job" component="div" />
-          Phone:
-          <Field type="tel" name="phone" className={`form-control ${errors.phone && 'is-invalid'}`} required={required} />
-          <ErrorMessage name="phone" component="div" />
-          Email:
-          <Field type="email" name="email" className={`form-control ${errors.email && 'is-invalid'}`} required={required} />
-          <ErrorMessage name="email" component="div" /> */}
-          <MyInputField label="First name" type="text" name="first_name"/*  className={`form-control ${errors.first_name && 'is-invalid'}`} */ required={required} />
-          <MyInputField label="Last name" type="text" name="last_name"/*  className={`form-control ${errors.last_name && 'is-invalid'}`} */ required={required} />
-          <MyInputField label="Job" type="text" name="job"/*  className={`form-control ${errors.job && 'is-invalid'}`} */ required={required} />
-          <MyInputField label="Phone" type="tel" name="phone"/*  className={`form-control ${errors.phone && 'is-invalid'}`} */ required={required} />
-          <MyInputField label="Email" type="email" name="email"/*  className={`form-control ${errors.email && 'is-invalid'}`} */ required={required} />
-          <button type="submit" className="btn btn-primary" disabled={isSubmitting || Object.keys(errors).length || !Object.keys(touched).length}>Submit</button>
-        </Form>
-      )}
-    </Formik>
+  return <div className="col-12">
+    <div className="row">
+      <div className="col-12">
+        <h1 className="text-center">{title}</h1>
+      </div>
+      <div className="col-12 d-flex justify-content-center">
+        <Formik
+          initialValues={initialValues}
+          validate={validate}
+          onSubmit={submitHandler}
+        >
+          {({ isSubmitting, errors, touched, values }) => (
+            <Form className={`w-50 needs-validation ${isSubmitting ? 'was-validated' : ''}`}>
+              <MyInputField label="First name" type="text" name="first_name" required={required} />
+              <MyInputField label="Last name" type="text" name="last_name" required={required} />
+              <MyInputField label="Job" type="text" name="job" required={required} />
+              <MyInputField label="Phone" type="tel" name="phone" required={required} />
+              <MyInputField label="Email" type="email" name="email" required={required} />
+              <button type="submit" className="btn btn-primary" disabled={isSubmitting || Object.keys(errors).length || (!Object.keys(touched).length && !Object.values(values).some(x => x !== ''))}>Submit</button>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </div>
   </div>
 }
 

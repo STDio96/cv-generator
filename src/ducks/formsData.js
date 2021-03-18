@@ -17,13 +17,14 @@ const unmounted = () => ({
 });
 
 export const saveForm = (data) => (dispatch, getState) => {
-  console.log('data', data)
+  /* console.log('data', data)
   console.log('getState()', getState())
 
-  dispatch(formSaved());
+  dispatch(formSaved()); */
 }
 
 export const changeInput = (data) => (dispatch) => {
+  console.log(dispatch)
   dispatch(inputChanged(data));
 }
 
