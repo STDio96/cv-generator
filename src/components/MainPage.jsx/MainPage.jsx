@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveForm } from '../../ducks/firstStep'
 import FirstStep from '../FirstStep/FirstStep';
+// import { formsJSON } from '../../forms'
 
 export default function MainPage() {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ export default function MainPage() {
   let form1_title = 'First step';
 
   // console.log(info[0])
+  // console.log(formsJSON[0])
 
   return <div className="row">
     <div className="col-12">

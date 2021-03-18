@@ -4,38 +4,25 @@ import { Formik, Form, Field, ErrorMessage, useField } from 'formik';
 import { useDispatch, useSelector } from 'react-redux'
 import { saveForm } from '../../ducks/firstStep'
 import MyInputField from '../MyInputField/MyInputField';
+import { formsJSON } from '../../forms'
+import AdvancedForm from '../AdvancedForm/AdvancedForm';
 
 const FirstStep = ({ title }) => {
   let required = false; // TODO: remove
 
   const dispatch = useDispatch();
 
-  /* const MyInputField = ({ label, ...props }) => {
-    const [field, meta, helpers] = useField(props);
-    // console.log(field, meta, helpers)
-    return (
-      <>
-        <label className="form-label" htmlFor={meta.name}>{label}</label>
-        // { {label} - {`${meta.error}`} - {(meta.touched && meta.error) ? '1' : '0'} }
-        <input className={`form-control ${(meta.touched && meta.error) ? 'is-invalid' : null}`} {...field} {...props} />
-        {meta.touched && meta.error ? (
-          <div className="invalid-feedback">{meta.error}</div>
-        ) : null}
-      </>
-    );
-  }; */
-
-  const initialValues = {
+  /* const initialValues = {
     first_name: 'Sergo',
     last_name: 'Rim',
     job: 'mid2sen js developers',
     phone: '123456789',
     email: 'sergo@gmail.com'
-    /* first_name: '',
+    first_name: '',
     last_name: '',
     job: '',
     phone: '',
-    email: '' */
+    email: ''
   }
 
   const validate = (values) => {
@@ -62,7 +49,7 @@ const FirstStep = ({ title }) => {
       dispatch(saveForm(0, values))
       dispatch(saveForm(1, values))
     }, 100);
-  }
+  } */
 
   return <div className="col-12">
     <div className="row">
@@ -70,7 +57,12 @@ const FirstStep = ({ title }) => {
         <h1 className="text-center">{title}</h1>
       </div>
       <div className="col-12 d-flex justify-content-center">
-        <Formik
+        {/* ============== */}
+        {formsJSON.map(({ initialValues, validate, inputs }, id) => {
+          return <AdvancedForm key={id} validate={validate} initialValues={initialValues} fields={inputs} />
+        })}
+        {/* ==============  */}
+        {/* <Formik
           initialValues={initialValues}
           validate={validate}
           onSubmit={submitHandler}
@@ -85,7 +77,7 @@ const FirstStep = ({ title }) => {
               <button type="submit" className="btn btn-primary" disabled={isSubmitting || Object.keys(errors).length || (!Object.keys(touched).length && !Object.values(values).some(x => x !== ''))}>Submit</button>
             </Form>
           )}
-        </Formik>
+        </Formik> */}
       </div>
     </div>
   </div>
