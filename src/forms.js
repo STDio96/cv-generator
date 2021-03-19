@@ -1,11 +1,11 @@
 export const formsJSON = [
   {
     "initialValues": {
-      "first_name": "Sergo",
-      "last_name": "LastName",
-      "job": "'mid2sen js developers",
-      "phone": "123456789",
-      "email": "sergo@gmail.com"
+      "first_name": "",
+      "last_name": "",
+      "job": "",
+      "phone": "",
+      "email": ""
     },
     validate: (values) => {
       const errors = {};
@@ -20,7 +20,7 @@ export const formsJSON = [
       ) {
         errors.email = 'Invalid email address';
       }
-      console.log(errors)
+      // console.log(errors)
       return errors;
     },
     "inputs": [

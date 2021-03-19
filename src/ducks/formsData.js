@@ -6,7 +6,6 @@ const formSaved = () => ({
   type: FORM_SAVED,
 });
 
-// { id: 'name', value: 'Sergo' }
 const inputChanged = (data) => ({
   type: INPUT_CHANGED,
   payload: data

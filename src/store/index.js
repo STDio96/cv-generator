@@ -9,7 +9,7 @@ import formData from '../ducks/formsData'
 
 const rootReducer = combineReducers({
     firstStep,
-    formData,
+    // formData,
     // secondStep,
     // thirdStep,
 });

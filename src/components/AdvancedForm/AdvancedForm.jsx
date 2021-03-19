@@ -3,23 +3,30 @@ import { Formik, Form } from 'formik';
 import { useDispatch, useSelector } from 'react-redux'
 import { saveForm } from '../../ducks/firstStep'
 import MyInputField from '../MyInputField/MyInputField';
+import { useHistory } from 'react-router-dom';
 
 const AdvancedForm = ({ initialValues, validate, fields }) => {
     const dispatch = useDispatch();
+    const personalInfo = useSelector(state => state.firstStep.personal);
+    const history = useHistory();
+
+    console.log(personalInfo, initialValues)
 
     const submitHandler = (values, { setSubmitting }) => {
         setTimeout(() => {
             // alert(JSON.stringify(values, null, 2));
             setSubmitting(false);
-            dispatch(saveForm(0, values))
-            dispatch(saveForm(1, values))
+            dispatch(saveForm('personal', values));
+            history.push('/steps/2')
+            // dispatch(saveForm(1, values))
         }, 100);
     }
 
     return <Formik
-        initialValues={initialValues}
+        initialValues={personalInfo}
         validate={validate}
         onSubmit={submitHandler}
+        validateOnMount={true}
     >
         {({ isSubmitting, errors, touched, values }) => (
             <Form className={`w-50 needs-validation ${isSubmitting ? 'was-validated' : ''}`}>

@@ -6,79 +6,26 @@ import { saveForm } from '../../ducks/firstStep'
 import MyInputField from '../MyInputField/MyInputField';
 import { formsJSON } from '../../forms'
 import AdvancedForm from '../AdvancedForm/AdvancedForm';
+import { useParams, useHistory } from 'react-router-dom'
 
 const FirstStep = ({ title }) => {
   let required = false; // TODO: remove
 
   const dispatch = useDispatch();
 
-  /* const initialValues = {
-    first_name: 'Sergo',
-    last_name: 'Rim',
-    job: 'mid2sen js developers',
-    phone: '123456789',
-    email: 'sergo@gmail.com'
-    first_name: '',
-    last_name: '',
-    job: '',
-    phone: '',
-    email: ''
-  }
+  const { id } = useParams();
+  const history = useHistory();
 
-  const validate = (values) => {
-    const errors = {};
-    Object.entries(values).forEach(x => {
-      if (!x[1]) {
-        errors[x[0]] = `${x[0]} is required`;
-      }
-    });
+  // history.block();
 
-    if (values.email &&
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-    ) {
-      errors.email = 'Invalid email address';
-    }
-    console.log(errors)
-    return errors;
-  }
-
-  const submitHandler = (values, { setSubmitting }) => {
-    setTimeout(() => {
-      // alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-      dispatch(saveForm(0, values))
-      dispatch(saveForm(1, values))
-    }, 100);
-  } */
-
-  return <div className="col-12">
-    <div className="row">
-      <div className="col-12">
-        <h1 className="text-center">{title}</h1>
-      </div>
-      <div className="col-12 d-flex justify-content-center">
-        {/* ============== */}
-        {formsJSON.map(({ initialValues, validate, inputs }, id) => {
-          return <AdvancedForm key={id} validate={validate} initialValues={initialValues} fields={inputs} />
-        })}
-        {/* ==============  */}
-        {/* <Formik
-          initialValues={initialValues}
-          validate={validate}
-          onSubmit={submitHandler}
-        >
-          {({ isSubmitting, errors, touched, values }) => (
-            <Form className={`w-50 needs-validation ${isSubmitting ? 'was-validated' : ''}`}>
-              <MyInputField label="First name" type="text" name="first_name" required={required} />
-              <MyInputField label="Last name" type="text" name="last_name" required={required} />
-              <MyInputField label="Job" type="text" name="job" required={required} />
-              <MyInputField label="Phone" type="tel" name="phone" required={required} />
-              <MyInputField label="Email" type="email" name="email" required={required} />
-              <button type="submit" className="btn btn-primary" disabled={isSubmitting || Object.keys(errors).length || (!Object.keys(touched).length && !Object.values(values).some(x => x !== ''))}>Submit</button>
-            </Form>
-          )}
-        </Formik> */}
-      </div>
+  return <div className="row">
+    <div className="col-12">
+      <h1 className="text-center">{title}</h1>
+    </div>
+    <div className="col-12 d-flex justify-content-center">
+      {formsJSON.map(({ initialValues, validate, inputs }, id) => {
+        return <AdvancedForm key={id} validate={validate} initialValues={initialValues} fields={inputs} />
+      })}
     </div>
   </div>
 }

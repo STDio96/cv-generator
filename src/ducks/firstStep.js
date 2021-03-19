@@ -14,7 +14,7 @@ const unmounted = () => ({
 });
 
 export const saveForm = (formId, formData) => (dispatch, getState) => {
-  console.log('data', formData)
+  // console.log('data', formData)
   // console.log('getState()', getState())
 
   dispatch(formSave(formId, formData));
@@ -26,18 +26,38 @@ export const unmount = () => (dispatch) => {
 }
 
 const initialState = {
-  
+  personal: {
+    "first_name": "",
+    "last_name": "",
+    "job": "",
+    "phone": "",
+    "email": ""
+  },
+  study:
+    [
+      {
+        "title": "",
+        "field_of_study": "",
+        "start_date": "",
+        "end_date": ""
+      },
+    ],
+  work: [
+    {
+      "job_title": "",
+      "company": "",
+      "start_date": "",
+      "end_date": ""
+    }
+  ]
 }
 
 const reducer = (state = initialState, action) => {
-  console.log('state', state)
-  console.log('action', action)
   switch (action.type) {
     case SAVE_FORM:
       return {
         ...state,
-        [action.payload.formId]: { ...action.payload.formData }
-        // "forms": state.forms[action.payload.formId]: action.payload.formData
+        [action.payload.formId]: action.payload.formData
       }
     case COMPONENT_UNMOUNT:
       return initialState
