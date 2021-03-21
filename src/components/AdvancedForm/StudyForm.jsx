@@ -5,6 +5,7 @@ import { saveForm } from '../../ducks/firstStep'
 import MyInputField from '../MyInputField/MyInputField';
 import { useHistory } from 'react-router';
 import * as Yup from 'yup'
+import { isEmpty } from '../../isEmpty'
 
 export const StudyForm = ({ title }) => {
   const dispatch = useDispatch();
@@ -15,9 +16,8 @@ export const StudyForm = ({ title }) => {
     console.log(history)
     history.goBack();
   }
-
-  console.log('firstStep', currentState)
-  if (!currentState.personal) {
+  console.log(isEmpty(Object.values(currentState.personal)), currentState.personal)
+  if (isEmpty(currentState.personal)) {
     console.log('you should\'t be here')
     history.push('/steps/1')
   }
@@ -42,7 +42,7 @@ export const StudyForm = ({ title }) => {
 
   return <div className="row">
     <div className="col-12">
-      <button onClick={goBack}>back</button>
+      <button className="btn btn-info" onClick={goBack}>&lt; Back</button>
       <h1 className="text-center">{title}</h1>
     </div>
     <div className="col-12 d-flex justify-content-center">
@@ -51,27 +51,22 @@ export const StudyForm = ({ title }) => {
           {
             study: [
               ...currentState.study ?? { title: '', field_of_study: '', start_date: '', end_date: '' }
-              /* { title: 'user1', field_of_study: 'computer science', start_date: '2020-01-01', end_date: '2021-01-01' },
-              { title: 'user3', field_of_study: 'programming', start_date: '2021-01-01', end_date: '2022-01-01' },
-              { title: 'user3', field_of_study: 'philosophy', start_date: '2022-01-01', end_date: '2023-01-01' }, */
             ]
           }
         }
         validationSchema={schema}
         validateOnMount={true}
-        onSubmit={values =>
-          setTimeout(() => {
-            dispatch(saveForm('study', values.study))
-            history.push('/steps/3')
-          }, 500)
-        }
+        onSubmit={values => {
+          dispatch(saveForm('study', values.study));
+          history.push('/steps/3');
+        }}
         render={({ values }) => (
           <Form className="w-50">
             <FieldArray
               name="study"
               render={arrayHelpers => (
                 <div>
-                  {values.study.map((friend, index) => (
+                  {values.study.map((value, index) => (
                     <React.Fragment key={index}>
                       <hr />
                       <button className="btn btn-success" type="button" onClick={() => arrayHelpers.insert(index, { title: '', field_of_study: '', start_date: '', end_date: '' })}>+</button>
@@ -85,8 +80,8 @@ export const StudyForm = ({ title }) => {
                       </div>
                     </React.Fragment>
                   ))}
-                  <button className="btn btn-success" type="button" onClick={() => arrayHelpers.insert({ title: '', field_of_study: '', start_date: '', end_date: '' })}>+</button>
-                  <button type="submit" className="btn btn-primary">Next</button>
+                  <button className="btn btn-success" type="button" onClick={() => arrayHelpers.push({ title: '', field_of_study: '', start_date: '', end_date: '' })}>+</button>
+                  <button className="btn btn-primary" type="submit">Next</button>
                 </div>
               )}
             />

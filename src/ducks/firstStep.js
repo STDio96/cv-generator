@@ -14,11 +14,7 @@ const unmounted = () => ({
 });
 
 export const saveForm = (formId, formData) => (dispatch, getState) => {
-  // console.log('data', formData)
-  // console.log('getState()', getState())
-
   dispatch(formSave(formId, formData));
-  // ім’я, прізвище, посаду, телефон та email.
 }
 
 export const unmount = () => (dispatch) => {

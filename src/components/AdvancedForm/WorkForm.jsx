@@ -5,6 +5,7 @@ import { saveForm } from '../../ducks/firstStep'
 import MyInputField from '../MyInputField/MyInputField';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup'
+import { isEmpty } from '../../isEmpty'
 
 export const WorkList = ({ title }) => {
   const dispatch = useDispatch();
@@ -16,13 +17,8 @@ export const WorkList = ({ title }) => {
     history.goBack();
   }
 
-  console.log('firstStep', currentState)
-  if (!currentState.study) {
-    if (!currentState.personal) {
-      history.push('/steps/1')
-    } else {
-      history.push('/steps/2')
-    }
+  if (isEmpty(currentState.study[0]) || isEmpty(currentState.personal)) {
+    history.push('/steps/2')
 
     console.log('you should\'t be here')
     return <></>
@@ -49,7 +45,7 @@ export const WorkList = ({ title }) => {
   return (
     <div className="row">
       <div className="col-12">
-        <button onClick={goBack}>back</button>
+        <button className="btn btn-info" onClick={goBack}>&lt; Back</button>
         <h1 className="text-center">{title}</h1>
       </div>
       <div className="col-12 d-flex justify-content-center">
@@ -58,29 +54,22 @@ export const WorkList = ({ title }) => {
             {
               work: [
                 ...currentState.work ?? { job_title: '', company: '', start_date: '', end_date: '' }
-                /* { job_title: 'job title1', company: 'company 1', start_date: '2020-01-01', end_date: '2021-01-01' },
-                { job_title: 'job title2', company: 'company 2', start_date: '2021-01-01', end_date: '2022-01-01' },
-                { job_title: 'job title3', company: 'company 3', start_date: '2022-01-01', end_date: '2023-01-01' }, */
               ]
             }
           }
           validationSchema={schema}
           validateOnMount={true}
-          onSubmit={values =>
-            setTimeout(() => {
-              // alert(JSON.stringify(values, null, 2));
-              dispatch(saveForm('work', values.work));
-
-              history.push('/cv');
-            }, 500)
-          }
+          onSubmit={values => {
+            dispatch(saveForm('work', values.work));
+            history.push('/cv');
+          }}
           render={({ values }) => (
             <Form className="w-50">
               <FieldArray
                 name="work"
                 render={arrayHelpers => (
                   <div>
-                    {values.work.map((friend, index) => (
+                    {values.work.map((value, index) => (
                       <React.Fragment key={index}>
                         <hr />
                         <button className="btn btn-warning" type="button" onClick={() => arrayHelpers.insert(index, { job_title: '', company: '', start_date: '', end_date: '' })}>+</button>
@@ -89,10 +78,12 @@ export const WorkList = ({ title }) => {
                           <MyInputField label="Company" type="text" name={`work.${index}.company`} />
                           <MyInputField label="Start date" type="date" name={`work.${index}.start_date`} />
                           <MyInputField label="End date" type="date" name={`work.${index}.end_date`} />
+
+                          <button className="btn btn-danger" type="button" onClick={() => arrayHelpers.remove(index)}>Remove</button>
                         </div>
-                        <button className="btn btn-danger" type="button" onClick={() => arrayHelpers.remove(index)}>Remove</button>
                       </React.Fragment>
                     ))}
+                    <button className="btn btn-success" type="button" onClick={() => arrayHelpers.push({ job_title: '', company: '', start_date: '', end_date: '' })}>+</button>
                     <button className="btn btn-primary" type="submit">Next</button>
                   </div>
                 )}
