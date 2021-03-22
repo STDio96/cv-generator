@@ -16,7 +16,7 @@ export const StudyForm = ({ title }) => {
     console.log(history)
     history.goBack();
   }
-  console.log(isEmpty(Object.values(currentState.personal)), currentState.personal)
+
   if (isEmpty(currentState.personal)) {
     console.log('you should\'t be here')
     history.push('/steps/1')

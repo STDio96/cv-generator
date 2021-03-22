@@ -1,12 +1,10 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 import { StudyForm } from '../AdvancedForm/StudyForm';
 import FirstStep from '../FirstStep/FirstStep';
 import { useParams } from 'react-router-dom'
 import { WorkList } from '../AdvancedForm/WorkForm';
 
 export default function MainPage() {
-  const dispatch = useDispatch();
   const { id } = useParams();
 
   let form1_title = 'Basic info';
@@ -21,6 +19,6 @@ export default function MainPage() {
     case 3:
       return <WorkList title={form3_title} />
     default:
-      return '1';
+      return <FirstStep title={form1_title} />
   }
 }

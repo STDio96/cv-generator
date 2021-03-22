@@ -1,7 +1,7 @@
 import React from 'react'
 import MainPage from './components/MainPage/MainPage'
 import store from './store/index'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import FinalCV from './components/FinalCV/FinalCV'
 
@@ -12,7 +12,7 @@ const App = () => {
         <Router>
           <Switch>
             <Route exact={true} path='/'>
-              {/* <MainPage /> */}
+              <Redirect to='/steps/1' />
             </Route>
             <Route path='/steps/:id'>
               <MainPage />
